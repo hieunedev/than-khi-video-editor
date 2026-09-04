@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.work.BackoffPolicy
 import androidx.work.CoroutineWorker
+import androidx.work.ListenableWorker.Result
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.Result
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
@@ -44,16 +44,7 @@ class RenderWorker(appContext: Context, params: WorkerParameters) : CoroutineWor
         val clips = buildList {
             for (i in 0 until array.length()) {
                 val row = array.getJSONArray(i)
-                add(
-                    Clip(
-                        id = i.toLong(),
-                        uri = Uri.parse(row.getString(0)),
-                        name = row.getString(1),
-                        durationMs = row.getLong(2),
-                        startMs = row.getLong(3),
-                        endMs = row.getLong(4).takeIf { it >= 0L }
-                    )
-                )
+                add(Clip(id = i.toLong(), uri = Uri.parse(row.getString(0)), name = row.getString(1), durationMs = row.getLong(2), startMs = row.getLong(3), endMs = row.getLong(4).takeIf { it >= 0L }))
             }
         }
         if (clips.isEmpty()) return Result.failure()
@@ -61,8 +52,6 @@ class RenderWorker(appContext: Context, params: WorkerParameters) : CoroutineWor
         val output = File(outputDir, "ThanKhi_${System.currentTimeMillis()}.mp4")
         setProgress(workDataOf("stage" to "Đang render", "percent" to 5))
         return try {
-            // VideoEngine itself reports completion through the suspend function.
-            // WorkManager progress is updated before and after the real export.
             VideoEngine.render(applicationContext, clips, output)
             setProgress(workDataOf("stage" to "Hoàn tất", "percent" to 100))
             Result.success(workDataOf("output" to output.absolutePath, "percent" to 100))
