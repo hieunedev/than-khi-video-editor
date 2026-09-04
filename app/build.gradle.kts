@@ -11,8 +11,8 @@ android {
         applicationId = "com.thankhi.videoeditor"
         minSdk = 26
         targetSdk = 35
-        versionCode = 6
-        versionName = "6.0.0"
+        versionCode = 7
+        versionName = "7.0.0"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -35,9 +35,9 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("androidx.work:work-runtime-ktx:2.10.0")
-    implementation("androidx.media3:media3-exoplayer:1.5.1")
-    implementation("androidx.media3:media3-ui:1.5.1")
-    implementation("androidx.media3:media3-transformer:1.5.1")
-    implementation("androidx.media3:media3-effect:1.5.1")
+    implementation("androidx.media3:media3-exoplayer:1.10.1")
+    implementation("androidx.media3:media3-ui:1.10.1")
+    implementation("androidx.media3:media3-transformer:1.10.1")
+    implementation("androidx.media3:media3-effect:1.10.1")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
